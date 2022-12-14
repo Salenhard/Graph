@@ -27,21 +27,16 @@ public:
 };
 
 template<class T>
-SeqList<T>::SeqList() {
-	llist();
+SeqList<T>::SeqList() : List<T>(), llist() {
+	
 }
 template<class T>
 int SeqList<T>::Find(const T& item) {
-	int result = 0;
-
 	for(llist.Reset();!llist.EndOfList(); llist.Next())
 		if (item == llist.Data()) {
-			result++;
-			break;
+			return 1;
 		}
-	if (result)
-		item = llist.Data();
-	return result;
+	return 0;
 }
 
 template<class T>

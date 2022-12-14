@@ -3,18 +3,17 @@
 #include "SeqListIterator.h"
 #include <stack>
 #include "PQueue.h"
-
-#include "VertexIterator.h"
 const int MAXGRAPHSIZE = 25;
 
-
+template<class T>
+class VertexIterator;
 template<class T>
 class Graph
 {
 
 private:
 	SeqList<T> vertexList;
-	int edge[MAXGRAPHSIZE];
+	int edge[MAXGRAPHSIZE][MAXGRAPHSIZE];
 	int graphsize;
 	int FindVertex(SeqList<T>& L, const T& vertex);
 	int GetVertexPos(const T& vertex);
@@ -55,7 +54,7 @@ int Graph<T>::FindVertex(SeqList<T>& L, const T& vertex) {
 
 // конструктор
 template<class T>
-Graph<T>::Graph() {
+Graph<T>::Graph() : vertexList() {
 	for (int i = 0; i < MAXGRAPHSIZE; i++)
 		for (int j = 0; j < MAXGRAPHSIZE; j++)
 			edge[i][j] = 0;
@@ -137,8 +136,8 @@ SeqList<T>& Graph<T>::DepthFirstSerch(const T& beginVertex) {
 	S.push(beginVertex);
 
 	while (!S.empty()) {
-
-		vertex = S.pop();
+		vertex = S.top();
+        S.pop();
 		if (!FindVertex(*L, vertex)) {
 			(*L).Insert(vertex);
 			adjL = GetNeighbors(vertex);
@@ -233,6 +232,7 @@ int Graph<T>::NumberOfEdges() const {
 template<class T>
 void Graph<T>::InsertVertex(const T& vertex) {
 	vertexList.Insert(vertex);
+	graphsize++;
 }
 template<class T>
 void Graph<T>::InsertEdge(const T& vertex1, const T& vertex2, int weight) {
@@ -252,6 +252,7 @@ void Graph<T>::InsertEdge(const T& vertex1, const T& vertex2, int weight) {
 	int i = GetVertexPos(vertex1);
 	int j = GetVertexPos(vertex2);
 	edge[i][j] = weight;
+	edge[j][i] = weight;
 }
 
 template <class T>
@@ -266,7 +267,6 @@ void Graph<T>::DeleteEdge(const T& vertex1, const T& vertex2) {
 // что?
 template <class T>
 void Graph<T>::ReadGraph(const char* filename) {
-	
 }
 // что?
 template <class T>

@@ -239,6 +239,7 @@ void LinkedList<T>::InsertRear(const T& item) {
 		// создать узел и вставить в конец списка (после currPtr)
 		newNode = this->GetNode(item, this->rear);
 		this->currPtr->InsertAfter(newNode);
+		this->rear = newNode;
 		this->size++;
 	}
 }

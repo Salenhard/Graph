@@ -9,13 +9,19 @@ class SeqListIterator : public Iterator<T> {
 
 public:
 
-	SeqListIterator(SeqList<T>& lst) {
+	SeqListIterator(SeqList<T>& lst) : Iterator<T>(){
+		listPtr = &lst;
 		this->iterationComplete = listPtr->llist.ListEmpty();
+		Reset();
 	}
 
 	virtual void Next() {
+		if (currPtr == NULL)
+			return;
 		prevPtr = currPtr;
-		currPtr = currPtr->next;
+		currPtr = currPtr->NextNode();
+		if (currPtr == NULL)
+			this->iterationComplete = 1;
 	}
 	virtual void Reset() {
 		this->iterationComplete = listPtr->llist.ListEmpty();
